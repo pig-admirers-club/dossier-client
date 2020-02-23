@@ -7,17 +7,19 @@
         <router-view></router-view>
       </div>
     </div>
+    <LoadingModal />
   </div>
 </template>
 
 <script lang="ts">
   import HeaderNav from './header.vue';
   import Menu from './menu.vue';
-
+  import LoadingModal from './util/loading-modal.vue'
   export default {
     components: {
        HeaderNav,
-       Menu
+       Menu,
+       LoadingModal
     },
     async mounted() {
       await this.$store.fetchRepos();
@@ -49,12 +51,13 @@
   }
   #container {
     min-height: calc(100vh - 50px);
-    width: 100vw;
+    width: 100%;
     display: flex;
   }
   #container__frame {
     background-color: beige;
-    height: 100%;
+    min-height: 100%;
     display: flex;
+    width: 100%;
   }
 </style>

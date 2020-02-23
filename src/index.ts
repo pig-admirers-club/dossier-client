@@ -13,7 +13,6 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', component: Repos }
 ]
-
 const router = new VueRouter({ routes })
 Vue.prototype.$store = Vue.observable(AppService);
 
