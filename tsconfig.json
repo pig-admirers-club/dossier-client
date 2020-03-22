@@ -7,10 +7,12 @@
     "allowJs": true,
     "lib": ["ES2015", "ES2016", "DOM"],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true
   },
   "include": [
-    "src/index.ts"
+    "src/index.ts",
+    "src/**/*.ts"
   ],
   "typeRoots": ["./typings"]
 }

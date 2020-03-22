@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-import { AppService, AppStore } from './store2/app';
+import { AppStore } from './store/app';
 //@ts-ignore
 import Index from './components/index.vue';
 //@ts-ignore
@@ -14,7 +14,7 @@ const routes = [
   { path: '/', component: Repos }
 ]
 const router = new VueRouter({ routes })
-Vue.prototype.$store = Vue.observable(AppService);
+Vue.prototype.$store = Vue.observable(AppStore);
 
 new Vue({
   el: '#app',

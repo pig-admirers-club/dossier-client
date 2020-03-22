@@ -1,19 +1,22 @@
 <template>
-  <li :class="{'active': activated}">
+  <li :class="{'active': activated, 'repo__list__item': true}">
     <div class="repo__info">
-      <div>
-        <label class="switch">
-          <input type="checkbox" @change="setActive($event)" v-model="active">
-          <span class="slider"></span>
-        </label>
-      </div>
       <span class="repo__author" style="">
-        {{ repo.owner() }} /
+        {{ repo.owner() }} / 
       </span> 
-        {{ repo.name() }}
+         {{ repo.name() }}
+
+         <span class="badge" v-if="repo.reports().length > 0">
+           <em>{{ repo.reports().length }}</em>
+         </span>
     </div>
-    <div v-if="active" class="repo__links">
-      <a @click="emitRepo()"><i class="fas fa-cog"></i></a>
+    <div v-if="!activated" class="repo__links">
+      <div
+        class="settings__button"
+       @click="emitRepo(repo)"
+      >
+        <i class="fas fa-cog"></i>
+       </div>
     </div>
   </li>
 </template>
@@ -27,22 +30,35 @@ export default {
     }
   },
   methods: {
-    async setActive(event) {
-      const id = this.repo.id();
-      const checked = event.srcElement.checked;
-      await checked ? this.$store.activateRepo(id) : this.$store.deactivateRepo(id);
-      if (checked) {
-        this.emitRepo();
-      }
-    },
-    emitRepo() {
-      this.$emit('set', this.repo)
+    emitRepo(value) {
+      this.$emit('set', value)
     }
   }
 }
 </script>
 
 <style>
+  .badge {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  .settings__button {
+    width: 50px;
+    height: 50px;
+    background-color: #F7F6EE;
+    border-left: 1px dashed #84A295;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #84A295;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .settings__button:hover {
+    background-color: #CC968F;
+    color: #333;
+    cursor: pointer;
+  }
   .repo__info {
     display: flex;
   }
@@ -51,17 +67,18 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
-  #repo__list li.active {
+  .repo__list__item.active {
     background-color: #fff;
   }
-  #repo__list li {
+  .repo__list__item {
     height: 30px;
-    padding: 10px;
+    padding: 10px 0px 10px 10px;
     display: flex;
     align-items: center;
     font-size: 12px;
     font-style:italic;
     font-weight: 100;
+    background-color: #EAE6DA;
     border-bottom: 1px solid #ccc;
   }
   #repo__list h3 {
@@ -77,60 +94,5 @@ export default {
     font-weight: bold;
     font-style:normal; 
     text-transform: uppercase; 
-  }
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    width: 35px;
-    height: 22px;
-    margin-right: 10px;
-  }
-
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 15px;
-    width: 15px;
-    left: 2px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(15px);
-    -ms-transform: translateX(15px);
-    transform: translateX(15px);
   }
 </style>
