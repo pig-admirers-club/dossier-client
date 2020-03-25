@@ -73,13 +73,13 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
               </div>
             </div>
             <li v-if="!isNewReport" style="display:flex; justify-content: center;">
-              <button @click="setNewReport(true)" class="uk-button uk-button-primary">New report</button>
+              <button @click.prevent="setNewReport(true)" class="uk-button uk-button-primary">New report</button>
             </li>
           </ul>
         </div>
         <div v-if="isNewReport" class="edit-report-container">
           <div class="edit-report-form" style="padding: 20px;">
-            <form class="uk-form-stacked">
+            <form @submit.prevent class="uk-form-stacked">
               <div>
                 <label class="uk-form-label">What is the name of your test suite?</label>
                 <div class="uk-form-control">
@@ -94,7 +94,7 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
                   </select>
                 </div>
               </div>
-              <button @click="saveNewReport()" class="uk-button uk-button-primary">Save</button>
+              <button @click.prevent="saveNewReport()" class="uk-button uk-button-primary">Save</button>
             </form>
           </div>
         </div>
@@ -258,7 +258,6 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
     height: 0px;
     visibility: hidden;
     transition: height .2s;
-    width: 0px;
     padding: 0;
   }
   #report__edit {
