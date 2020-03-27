@@ -23,7 +23,7 @@ export class RepoPager {
   }
 
   pages() {
-    return Math.floor(this.count / this.REPOS_PER_PAGE)
+    return Math.ceil(this.count / this.REPOS_PER_PAGE)
   }
 
   offset() {
