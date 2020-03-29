@@ -5,6 +5,6 @@ export class Me {
   }
 
   name() {
-    return this.data.login
+    return this.data.login;
   }
 }

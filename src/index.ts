@@ -11,7 +11,7 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: Repos }
+  { path: '/', component: Repos },
 ]
 const router = new VueRouter({ routes })
 Vue.prototype.$store = Vue.observable(AppStore);

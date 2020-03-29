@@ -79,11 +79,12 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
         </div>
         <div v-if="isNewReport" class="edit-report-container">
           <div class="edit-report-form" style="padding: 20px;">
-            <form @submit.prevent class="uk-form-stacked">
+            <form @submit.prevent class="uk-form-stacked" style="width:100%;">
               <div>
                 <label class="uk-form-label">What is the name of your test suite?</label>
                 <div class="uk-form-control">
-                  <input class="uk-input uk-width-1-1" v-model="newReportName">
+                  <input :class="{'uk-input': true, 'uk-width-1-1': true, 'uk-form-danger': !!errors.name}" v-model="newReportName">
+                  <span v-if="errors.name" class="validation-error">{{ errors.name }}</span>
                 </div>
               </div>
               <div class="uk-width">
@@ -118,6 +119,9 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
       await this.$store.fetchRepos();
     },
     computed: {
+      errors() {
+        return this.$store.errors.newReport;
+      },
       menuWidth() {
         return this.isNewReport ? '300px' : '100%';
       },
@@ -185,13 +189,17 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
         this.fetchPage(this.$store.repoPager.currentPage + 1);
       },
       async saveNewReport() {
-        await this.$store.saveReport();
-        await this.$store.fetchRepos(false);
-        this.setNewReport(false);
-        this.$store.resetReport();
+        const saved = await this.$store.saveReport();
+        if (saved) {
+          await this.$store.fetchRepos(false);
+          this.setNewReport(false);
+          this.$store.resetReport();
+        }
       },
       setNewReport(val) {
+        this.$store.clearErrors('newReport');
         this.isNewReport = val;
+        this.$store.resetReport();
         this.openAccordion(null)
       },
       openAccordion(id) {
@@ -209,6 +217,10 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
 </script>
 
 <style scoped>
+  .validation-error {
+    font-size: smaller;
+    color: red;
+  }
   #repo__container {
     display: flex;
     width: 100%;
@@ -255,10 +267,12 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
   }
 
   .accordion-content.closed {
-    height: 0px;
     visibility: hidden;
     transition: height .2s;
     padding: 0;
+    line-height: 0;
+    height: 0;
+    overflow: hidden;
   }
   #report__edit {
     background-color: white;

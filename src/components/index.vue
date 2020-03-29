@@ -22,11 +22,10 @@
        LoadingModal
     },
     async mounted() {
-      await this.$store.fetchRepos();
     },
     computed: {
       authenticated() {
-        return this.$store.authenticated;
+        return this.$store.loggedIn();
       },
       repos() {
         return this.$store.repos;

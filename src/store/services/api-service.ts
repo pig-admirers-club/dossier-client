@@ -32,7 +32,6 @@ export class ApiService {
         return {}
       }
     } catch (e) {
-      console.log(e);
       this.errorService.publish(ERRORS.API_ERROR, e);
       return {};
     }
@@ -43,14 +42,18 @@ export class ApiService {
       const response = await fetch(`${this.meUrl()}/reports/new`, { method: 'POST', body: JSON.stringify(payload) });
       if (response.ok) {
         const idData = await response.json();
-        return JSON.parse(idData);
+        return [JSON.parse(idData), null];
       } else {
+        if (response.status === 400) {
+          const errors = await response.json();
+          return [null, JSON.parse(errors)];
+        }
         this.handleError(response);
-        return null;
+        return [null, null];
       }
     } catch (e) {
       this.errorService.publish(ERRORS.API_ERROR, e);
-      return null;
+      return [null, null];
     }
   }
 
@@ -83,7 +86,6 @@ export class ApiService {
         return []
       }
     } catch (e) {
-      console.log('catch', e)
       this.errorService.publish(ERRORS.API_ERROR, e);
       return [];
     }

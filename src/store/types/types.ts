@@ -1,6 +1,7 @@
 export enum ERRORS {
   API_ERROR,
-  UNAUTHORIZED
+  UNAUTHORIZED,
+  VALIDATION_ERROR
 }
 export const TYPE = {
   ApiService: Symbol.for("ApiService"),

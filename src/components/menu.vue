@@ -1,7 +1,7 @@
 <template>
   <div id="menu">
     <ul>
-      <li><i class="fas fa-box"></i></li>
+      <li><router-link to="/"><i class="fas fa-box"></i></router-link></li>
     </ul>
   </div>
 </template>

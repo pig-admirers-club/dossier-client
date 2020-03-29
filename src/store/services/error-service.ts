@@ -9,6 +9,10 @@ export class ErrorService {
     this.publisher = PubSub;
   }
 
+  unsubscribe(token) {
+    this.publisher.unsubscribe(token);
+  }
+
   subscribe(errorType, callback) {
     return this.publisher.subscribe(errorType, callback);
   }

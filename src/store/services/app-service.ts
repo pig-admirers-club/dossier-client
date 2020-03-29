@@ -46,6 +46,13 @@ export class AppService {
     name: 'New Report',
     framework: 'RubyCucumber'
   };
+  errors = {
+    newReport: {
+      repo_id: null,
+      name: null,
+      framework: null
+    }
+  }
 
   private errorService: ErrorService;
   private apiService: ApiService;
@@ -67,6 +74,16 @@ export class AppService {
     })
   }
 
+  loggedIn() {
+    return !(this.me == {});
+  }
+
+  clearErrors(field) {
+    Object.keys(this.errors[field]).forEach((key) => {
+      this.errors[field][key] = null;
+    });
+  }
+
   resetReport(){ 
     this.newReport = {
       repo_id: null,
@@ -82,9 +99,16 @@ export class AppService {
     const payload = this.newReport;
     payload.repo_id = this.activeRepo.id();
     this.busy = true;
-    const id = await this.apiService.newReport(payload);
+    const [_, errors] = await this.apiService.newReport(payload);
+    if (errors) {
+      errors.forEach((err) => {
+        this.errors.newReport[err.field] = err.message
+      })
+      this.busy = false;
+      return false;
+    }
     this.busy = false;
-    console.log('id of new report', id);
+    return true;
   }
 
   async fetchMe() {
