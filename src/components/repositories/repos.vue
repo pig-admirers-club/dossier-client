@@ -132,7 +132,8 @@ and visit your <a :href="`/ruby-cucumber/${report.id}`">report!</a>
         return this.$store.activeRepo
       },
       pages() {
-        return [...Array(this.$store.repoPager.pages()).keys()].map((i) => i+1);
+        const pages = this.$store.repoPager.pages();
+        return [...Array(pages).keys()].map((i) => i+1);
       },
       newReportName: {
         set(value) {

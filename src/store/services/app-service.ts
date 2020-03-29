@@ -12,6 +12,7 @@ export class RepoPager {
 
   constructor(count) {
     this.count = count
+    this.REPOS_PER_PAGE = Math.ceil((window.innerHeight - 159) / 51)
   }
 
   setPage(page: number) {
@@ -23,7 +24,7 @@ export class RepoPager {
   }
 
   pages() {
-    return Math.ceil(this.count / this.REPOS_PER_PAGE)
+    return Math.ceil(this.count / this.REPOS_PER_PAGE);
   }
 
   offset() {
